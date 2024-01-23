@@ -48,6 +48,15 @@ function M.toggle_checkbox()
     end
 end
 
+function M.toggle_checkbox_present()
+    vim.go.operatorfunc = "v:lua.require'markdown-list-tools'.toggle_checkbox_present_callback"
+    if util.in_visual_mode() then
+        vim.cmd("normal! g@")
+    else
+        vim.cmd("normal! g@l")
+    end
+end
+
 function M.toggle_checkbox_callback(motion)
     for line, _ in pairs(vim.region(0, "'[", "']", "l", false)) do
         local list_item_info = util.get_list_item_info(line)
@@ -59,6 +68,20 @@ function M.toggle_checkbox_callback(motion)
                 else
                     vim.api.nvim_buf_set_text(0, line, cb.start + 1, line, cb.stop, {"x"})
                 end
+            end
+        end
+    end
+end
+
+function M.toggle_checkbox_present_callback(motion)
+    for line, _ in pairs(vim.region(0, "'[", "']", "l", false)) do
+        local list_item_info = util.get_list_item_info(line)
+        if list_item_info then
+            if list_item_info.checkbox then
+                local cb = list_item_info.checkbox
+                vim.api.nvim_buf_set_text(0, line, cb.start - 1, line, list_item_info.text_start, {" "})
+            else
+                vim.api.nvim_buf_set_text(0, line, list_item_info.text_start, line, list_item_info.text_start, {"[ ] "})
             end
         end
     end

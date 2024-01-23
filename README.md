@@ -7,6 +7,7 @@ Small nvim plugin to handle Markdown lists, including checkbox lists.
 - Auto-insert list items to continue a list (works with `<enter>` in insert mode and `o` and `O` in normal mode).
 - Auto-insert also handles checkboxes (`* [ ] My todo item`)
 - Toggle checkboxes on and off
+- Toggle if checkboxes are present in the list item or not
 
 ## Installation
 
@@ -44,6 +45,8 @@ require("markdown-tools").setup({
 ```lua
 -- Toggle state for the current checkbox.  Works in normal and visual mode
 vim.keymap.set({ 'n', 'x' }, '<leader>c', require('markdown-tools').checkbox_toggle(), { desc = 'Toggle checkbox' });
+-- Toggle if a checkbox is present or not.  Works in normal and visual mode
+vim.keymap.set({ 'n', 'x' }, '<leader>C', require('markdown-tools').checkbox_toggle_present(), { desc = 'Toggle checkbox present' });
 ```
 
 ## Is dot-repeat supported?
